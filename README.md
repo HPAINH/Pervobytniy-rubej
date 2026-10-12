@@ -1,14 +1,12 @@
 <div align="center">
 
-<img src="docs/screenshots/menu.jpg" alt="Первобытный рубеж — главное меню" width="100%">
-
 # Первобытный рубеж
 
 **Браузерный 3D-шутер про охоту на динозавров, наёмников и пришельцев.**<br>
 Шесть глав сюжета, 11 видов оружия, 19 типов врагов. Без установки — открывается в браузере.
 
 [![Играть](https://img.shields.io/badge/▶_Играть-в_браузере-e8642c?style=for-the-badge)](https://hpainh.github.io/pervobytny-rubezh/)
-[![Скачать](https://img.shields.io/badge/⬇_Скачать-офлайн--версию-2f3a2a?style=for-the-badge)](../../releases/latest)
+[![Скачать](https://img.shields.io/badge/⬇_Скачать-index.html-2f3a2a?style=for-the-badge)](../../blob/main/index.html)
 
 ![Three.js](https://img.shields.io/badge/Three.js-r128-000000?logo=threedotjs&logoColor=white)
 ![WebGL](https://img.shields.io/badge/WebGL-2-990000?logo=webgl&logoColor=white)
@@ -23,7 +21,6 @@
 ## Содержание
 
 - [Сюжет](#сюжет)
-- [Скриншоты](#скриншоты)
 - [Возможности](#возможности)
 - [Управление](#управление)
 - [Арсенал](#арсенал)
@@ -52,25 +49,6 @@ flowchart LR
 ```
 
 Каждая глава начинается и заканчивается роликом с диалогами, а по ходу боя Ана выходит на связь по радио. Ролики можно пропустить или отключить в настройках.
-
----
-
-## Скриншоты
-
-<table>
-  <tr>
-    <td width="50%"><img src="docs/screenshots/dinosaurs.jpg" alt="Динозавры в джунглях"><br><sub>Джунгли Края: рапторы, дилофозавры, стегозавр</sub></td>
-    <td width="50%"><img src="docs/screenshots/syndicate.jpg" alt="Бойцы Синдиката и Жнецы"><br><sub>Синдикат «Кость» и солдаты Жнецов</sub></td>
-  </tr>
-  <tr>
-    <td><img src="docs/screenshots/boss-overseer.jpg" alt="Босс Жнец-Надсмотрщик"><br><sub>Глава II — Жнец-Надсмотрщик под щитом</sub></td>
-    <td><img src="docs/screenshots/boss-krail.jpg" alt="Босс генерал Крейл"><br><sub>Глава V — генерал Крейл в цитадели</sub></td>
-  </tr>
-  <tr>
-    <td><img src="docs/screenshots/boss-tyrant.jpg" alt="Финальный босс Король-Тиран"><br><sub>Финал — Король-Тиран и импланты на спине</sub></td>
-    <td><img src="docs/screenshots/cutscene.jpg" alt="Сюжетный ролик"><br><sub>Сюжетный ролик с репликами</sub></td>
-  </tr>
-</table>
 
 ---
 
@@ -177,18 +155,11 @@ flowchart LR
 
 ## Запуск
 
-**Онлайн:** включите GitHub Pages (`Settings → Pages → Branch: main / root`) — игра будет доступна по адресу `https://hpainh.github.io/pervobytny-rubezh/`.
+Вся игра — один файл `index.html` (~23 МБ): код, Three.js, модели, текстуры и звуки встроены внутрь.
 
-**Локально.** Модели грузятся через `fetch`, поэтому `index.html` нужно открывать через локальный сервер, а не двойным кликом:
+**Скачать и играть.** Скачайте [`index.html`](../../blob/main/index.html) (кнопка «Download raw file» справа над файлом) и откройте двойным кликом. Интернет нужен только для шрифтов — без него подставятся системные.
 
-```bash
-git clone https://github.com/HPAINH/pervobytny-rubezh.git
-cd pervobytny-rubezh
-python -m http.server 8000
-# откройте http://localhost:8000
-```
-
-**Офлайн одним файлом.** `pervobytny-rubezh-offline.html` (~22 МБ) из [релизов](../../releases/latest) содержит все модели и звуки внутри и открывается двойным кликом.
+**Онлайн.** Включите GitHub Pages (`Settings → Pages → Branch: main / root`) — игра откроется по адресу `https://hpainh.github.io/pervobytny-rubezh/`.
 
 **Требования:** Chrome, Edge или Firefox последних версий, видеокарта с поддержкой WebGL. На слабых ноутбуках выберите низкое качество в настройках.
 
@@ -196,32 +167,7 @@ python -m http.server 8000
 
 ## Как устроено
 
-Игра написана на чистом JavaScript поверх **Three.js r128** — без игрового движка, фреймворков и `npm install`.
-
-```
-pervobytny-rubezh/
-├── index.html          # собранная игра (библиотеки с CDN, ассеты из assets/)
-├── assets/             # модели .glb, текстуры .jpg, звуки .ogg
-├── src/
-│   ├── engine.js       # загрузка и нормализация моделей, процедурная анимация ходьбы
-│   ├── world.js        # рельеф, растительность, небо, пост-обработка, локации
-│   ├── game1.js        # конфиг оружия и врагов, сюжет и главы, звук, игрок
-│   ├── game2.js        # ИИ, стрельба, боссы, миссии, ролики, HUD, игровой цикл
-│   ├── body.html       # разметка экранов
-│   └── style.css       # оформление интерфейса
-├── lib/                # локальные копии Three.js для разработки
-├── build.py            # склейка src/ в index.html и офлайн-версию
-└── docs/screenshots/
-```
-
-**Сборка:**
-
-```bash
-python build.py
-# index_dev.html — для разработки (lib/ локально)
-# dist/index.html — как в корне репозитория
-# dist/pervobytny-rubezh-offline.html — всё в одном файле
-```
+Игра написана на чистом JavaScript поверх **Three.js r128** — без игрового движка, фреймворков и `npm install`. Модели и звуки хранятся внутри HTML в base64 и распаковываются при загрузке.
 
 <details>
 <summary><b>Технические детали</b></summary>
@@ -232,6 +178,7 @@ python build.py
 - **Попадания:** сферы на костях скелета — тело, голова, слабые точки, топливные баки.
 - **Растительность:** тысячи экземпляров через `InstancedMesh` с шейдером ветра; текстуры листвы генерируются на canvas.
 - **Логика:** фиксированный шаг 1/60 с, конечные автоматы ИИ, токены ближнего боя, чтобы враги не нападали все разом.
+- **Сохранения:** прогресс, прокачка и настройки — в `localStorage` браузера.
 
 </details>
 
